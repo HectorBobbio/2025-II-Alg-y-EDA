@@ -35,7 +35,10 @@ public:
 };
 
 template <typename T>
-CVector<T>::CVector(size_t n){
+CVector<T>::CVector(size_t n) : m_count(0), m_max(n), m_pVect(nullptr),{
+    if (n >= 1){
+        m_pVect = new T[n];
+    }
 }
 
 // TODO: (Nivel 1) implementar el destructor de forma segura (DONE)
