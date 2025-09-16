@@ -28,21 +28,29 @@ public:
 
     CVector(size_t n);
     // DONE (Nivel 2): Agregar un move constructor
-    CVector(CVector &&v);
+    CVector(CVector &&v) noexcept;
 
     // DONE (Nivel 1) implementar el destructor de forma segura.
     virtual ~CVector();
     
-    void insert(T &elem);
+    void insert(const T &elem);
     void resize();
 
     T& operator[](size_t index);
-    friend std::ostream& operator <<(std::ostream &out, CVector<T> &v);
+    
+    friend std::ostream& operator << (std::ostream &out, CVector<T> &v){
+        out << "[";
+        for(size_t i=0; i < v.m_count ; ++i){
+            out << v.m_pVect[i] << " ";
+        }
+        out << "]";
+        return out;
+    }
 };
 
 // Constructor por tamaño.
 template <typename T>
-CVector<T>::CVector(size_t n) : m_count(0), m_max(n), m_pVect(nullptr),{
+CVector<T>::CVector(size_t n) : m_pVect(nullptr), m_count(0), m_max(n){
     if (n > 0){
         m_pVect = new T[n];
     }
@@ -50,7 +58,7 @@ CVector<T>::CVector(size_t n) : m_count(0), m_max(n), m_pVect(nullptr),{
 
 // DONE (Nivel 1) Agregar un constructor por copia.
 template <typename T>
-CVector<T>::CVector(CVector &v) : m_count(v.m_count), m_max(v.m_max), m_pVect(nullptr){
+CVector<T>::CVector(CVector &v) : m_pVect(nullptr), m_count(v.m_count), m_max(v.m_max){
     // Vector vacío o inválido
     if (v.m_pVect == nullptr || m_max == 0){ 
         m_count = 0;
@@ -67,7 +75,7 @@ CVector<T>::CVector(CVector &v) : m_count(v.m_count), m_max(v.m_max), m_pVect(nu
 
 // DONE (Nivel 2): Agregar un move constructor
 template <typename T>
-CVector<T>::CVector(CVector &&v) noexcept : m_count(v.m_count), m_max(v.m_max), m_pVect(v.m_pVect){
+CVector<T>::CVector(CVector &&v) noexcept : m_pVect(v.m_pVect), m_count(v.m_count), m_max(v.m_max){
     if (m_pVect == nullptr || m_max == 0){
         m_pVect = nullptr;
         m_count = 0;
@@ -112,7 +120,7 @@ void CVector<T>::resize(){
 
 // La funcion insert debe permitir que el vector crezca si ha desbordado
 template <typename T>
-void CVector<T>::insert(T &elem){
+void CVector<T>::insert(const T &elem){
     if(m_count == m_max)
         resize();
     m_pVect[m_count++] = elem;
@@ -121,18 +129,8 @@ void CVector<T>::insert(T &elem){
 // DONE (Nivel 1) habilitar el uso de []
 template <typename T>
 T& CVector<T>::operator[](size_t index){
-    if (index < m_count){
-        return m_pVect[index];
-    }
+    return m_pVect[index];
 }
 
-template <typename T>
-std::ostream& operator <<(std::ostream &out, CVector<T> &v){
-    out << "[";
-    for(size_t i=0; i < v.m_count ; ++i){
-        out << v.m_pVect[i] << " ";
-    }
-    out << "]";
-    return out;
-}
+
 #endif // __VECTOR_H__
