@@ -32,8 +32,12 @@ public:
 
     // DONE (Nivel 1) implementar el destructor de forma segura.
     virtual ~CVector();
+    
     void insert(T &elem);
     void resize();
+
+    T& operator[](size_t index);
+    friend std::ostream& operator <<(std::ostream &out, CVector<T> &v);
 };
 
 // Constructor por tamaño.
@@ -114,4 +118,21 @@ void CVector<T>::insert(T &elem){
     m_pVect[m_count++] = elem;
 }
 
+// DONE (Nivel 1) habilitar el uso de []
+template <typename T>
+T& CVector<T>::operator[](size_t index){
+    if (index < m_count){
+        return m_pVect[index];
+    }
+}
+
+template <typename T>
+std::ostream& operator <<(std::ostream &out, CVector<T> &v){
+    out << "[";
+    for(size_t i=0; i < v.m_count ; ++i){
+        out << v.m_pVect[i] << " ";
+    }
+    out << "]";
+    return out;
+}
 #endif // __VECTOR_H__
