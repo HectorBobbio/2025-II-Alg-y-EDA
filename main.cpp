@@ -19,7 +19,7 @@ using namespace std;
 
 int main(){
     cout << "Hello Alg y EDA-UNI" << endl;
-    DemoThreads();
+    // DemoThreads();
     return 0;
 }
 
