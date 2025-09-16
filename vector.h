@@ -1,6 +1,8 @@
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
 
+# include <cmath>
+
 // PC1: deben hacer:
 //      2 problemas de nivel 2
 //      3 problemas de nivel 1
@@ -84,21 +86,27 @@ CVector<T>::~CVector(){
 }
 
 
-
-
-
-// TODO (Nivel 1): hacer dinamico el delta de crecimiento
+// DONE (Nivel 1): hacer dinamico el delta de crecimiento
 template <typename T>
 void CVector<T>::resize(){
-    T *pTmp = new T[m_max+10];
-    for(auto i=0; i < m_max ; ++i)
+    size_t delta;
+
+    if (m_max == 0){
+        delta = 5;
+    }
+    else{
+        delta = std::ceil(0.25 + m_max * (10 * std::exp(-0.1 * m_max)));
+    }
+
+    T *pTmp = new T[m_max + delta];
+    for(size_t i=0; i < m_max ; ++i)
         pTmp[i] = m_pVect[i];
     delete [] m_pVect;
-    m_max += 10;
+    m_max += delta;
     m_pVect = pTmp;
 }
 
-// TODO (ya está hecha): la funcion insert debe permitir que el vector crezca si ha desbordado
+// La funcion insert debe permitir que el vector crezca si ha desbordado
 template <typename T>
 void CVector<T>::insert(T &elem){
     if(m_count == m_max)
