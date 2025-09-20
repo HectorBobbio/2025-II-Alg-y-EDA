@@ -32,11 +32,14 @@ public:
     virtual ~CVector();
     void insert(T &elem);
     void resize();
+    T& operator[](size_t index);
 };
 
 template <typename T>
-CVector<T>::CVector(size_t n){
-
+CVector<T>::CVector(size_t n) : m_pVect(nullptr), m_count(0), m_max(n){
+    if (n > 0){
+        m_pVect = new T[n];
+    }
 }
 
 // TODO: (Nivel 1) implementar el destructor de forma segura (DONE)
@@ -65,6 +68,12 @@ void CVector<T>::insert(T &elem){
     if(m_count == m_max)
         resize();
     m_pVect[m_count++] = elem;
+}
+
+// DONE (Nivel 1) habilitar el uso de []
+template <typename T>
+T& CVector<T>::operator[](size_t index){
+    return m_pVect[index];
 }
 
 #endif // __VECTOR_H__
