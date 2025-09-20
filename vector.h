@@ -25,8 +25,8 @@ public:
     CVector(CVector &v);
 
     CVector(size_t n);
-    // TODO  (Nivel 2): Agregar un move constructor
-    CVector(CVector &&v);
+    // DONE  (Nivel 2): Agregar un move constructor
+    CVector(CVector &&v) noexcept;
 
     // DONE: (Nivel 1) implementar el destructor de forma segura
     virtual ~CVector();
@@ -59,7 +59,22 @@ CVector<T>::CVector(CVector &v) : m_pVect(nullptr), m_count(v.m_count), m_max(v.
     }
 }
 
-// TODO: (Nivel 1) implementar el destructor de forma segura (DONE)
+// DONE (Nivel 2): Agregar un move constructor
+template <typename T>
+CVector<T>::CVector(CVector &&v) noexcept : m_pVect(v.m_pVect), m_count(v.m_count), m_max(v.m_max){
+    if (m_pVect == nullptr || m_max == 0){
+        m_pVect = nullptr;
+        m_count = 0;
+        m_max   = 0;
+    }
+    else{
+        v.m_count = 0;
+        v.m_max   = 0;
+        v.m_pVect = nullptr;
+    }
+}
+
+// DONE: (Nivel 1) implementar el destructor de forma segura (DONE)
 template <typename T>
 CVector<T>::~CVector(){
     delete [] m_pVect;
