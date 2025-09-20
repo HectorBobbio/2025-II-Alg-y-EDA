@@ -19,6 +19,7 @@ class CVector{
     T      *m_pVect = nullptr;
     size_t  m_count = 0; // How many elements we have now?
     size_t  m_max   = 0; // Max capacity
+
 public:
     // TODO  (Nivel 1) Agregar un constructor por copia
     CVector(CVector &v);
@@ -27,8 +28,8 @@ public:
     // TODO  (Nivel 2): Agregar un move constructor
     CVector(CVector &&v);
 
-    // TODO: (Nivel 1) implementar el destructor de forma segura
-    vrtual CVector();
+    // TODO: (Nivel 1) implementar el destructor de forma segura (DONE)
+    virtual ~CVector();
     void insert(T &elem);
     void resize();
 };
@@ -36,6 +37,15 @@ public:
 template <typename T>
 CVector<T>::CVector(size_t n){
 
+}
+
+// TODO: (Nivel 1) implementar el destructor de forma segura (DONE)
+template <typename T>
+CVector<T>::~CVector(){
+    delete [] m_pVect;
+    m_pVect = nullptr;
+    m_count = 0;
+    m_max   = 0;
 }
 
 // TODO (Nivel 1): hacer dinamico el delta de crecimiento
