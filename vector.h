@@ -21,14 +21,14 @@ class CVector{
     size_t  m_max   = 0; // Max capacity
 
 public:
-    // TODO  (Nivel 1) Agregar un constructor por copia
+    // DONE (Nivel 1) Agregar un constructor por copia
     CVector(CVector &v);
 
     CVector(size_t n);
     // TODO  (Nivel 2): Agregar un move constructor
     CVector(CVector &&v);
 
-    // TODO: (Nivel 1) implementar el destructor de forma segura (DONE)
+    // DONE: (Nivel 1) implementar el destructor de forma segura
     virtual ~CVector();
     void insert(T &elem);
     void resize();
@@ -39,6 +39,23 @@ template <typename T>
 CVector<T>::CVector(size_t n) : m_pVect(nullptr), m_count(0), m_max(n){
     if (n > 0){
         m_pVect = new T[n];
+    }
+}
+
+// DONE (Nivel 1) Agregar un constructor por copia.
+template <typename T>
+CVector<T>::CVector(CVector &v) : m_pVect(nullptr), m_count(v.m_count), m_max(v.m_max){
+    // Vector vacío o inválido
+    if (v.m_pVect == nullptr || m_max == 0){ 
+        m_count = 0;
+        m_max   = 0;
+    }
+    // Vector válido
+    else{
+        m_pVect = new T[m_max];
+        for(size_t i=0; i < m_count ; ++i){
+            m_pVect[i] = v.m_pVect[i];
+        }
     }
 }
 
