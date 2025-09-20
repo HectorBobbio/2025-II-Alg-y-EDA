@@ -1,6 +1,7 @@
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
 
+#include <cmath>
 // PC1: deben hacer:
 //      2 problemas de nivel 2
 //      3 problemas de nivel 1
@@ -30,9 +31,18 @@ public:
 
     // DONE: (Nivel 1) implementar el destructor de forma segura
     virtual ~CVector();
-    void insert(T &elem);
+    void insert(const T &elem);
     void resize();
     T& operator[](size_t index);
+
+    friend std::ostream& operator << (std::ostream &out, CVector<T> &v){
+        out << "[";
+        for(size_t i=0; i < v.m_count ; ++i){
+            out << v.m_pVect[i] << " ";
+        }
+        out << "]";
+        return out;
+    }
 };
 
 template <typename T>
@@ -105,7 +115,7 @@ void CVector<T>::resize(){
 
 // TODO (ya está hecha): la funcion insert debe permitir que el vector crezca si ha desbordado
 template <typename T>
-void CVector<T>::insert(T &elem){
+void CVector<T>::insert(const T &elem){
     if(m_count == m_max)
         resize();
     m_pVect[m_count++] = elem;
